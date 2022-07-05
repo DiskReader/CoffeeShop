@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CoffeeShop.Context;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CoffeeShop.Controllers
 {
@@ -6,12 +8,9 @@ namespace CoffeeShop.Controllers
     [Route("[controller]")]
     public class CoffeeController : ControllerBase
     {
-        private static readonly string[] Names = new[]
-        {
-            "Arabica", "Robusta", "Decaf", "Espresso", "Latte", "Cappuccino", "Macchiato", "Americano"
-        };
-
         private readonly ILogger<CoffeeController> _logger;
+
+        private CoffeeShopContext db = new CoffeeShopContext();
 
         public CoffeeController(ILogger<CoffeeController> logger)
         {
@@ -21,12 +20,35 @@ namespace CoffeeShop.Controllers
         [HttpGet(Name = "GetCoffee")]
         public IEnumerable<Coffee> Get()
         {
-            return Enumerable.Range(1, 5).Select(index => new Coffee
-                {
-                    Price = Random.Shared.Next(5, 20),
-                    Name = Names[Random.Shared.Next(Names.Length)]
-                })
-                .ToArray();
+            return db.Coffees;
+        }
+
+        [HttpPost]
+        public void Post([FromForm]Coffee coffee)
+        {
+            db.Coffees.Add(coffee);
+            db.SaveChanges();
+        }
+
+        [HttpPut]
+        public void Put(int id, [FromForm] Coffee coffee)
+        {
+            if (id == coffee.Id)
+            {
+                db.Entry(coffee).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+        }
+
+        [HttpDelete]
+        public void Delete(int id)
+        {
+            Coffee coffee = db.Coffees.Find(id);
+            if (coffee != null)
+            {
+                db.Coffees.Remove(coffee);
+                db.SaveChanges();
+            }
         }
     }
 }
