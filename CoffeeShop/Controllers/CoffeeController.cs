@@ -6,7 +6,7 @@ namespace CoffeeShop.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CoffeeController : ControllerBase
+    public class CoffeeController : Controller
     {
         private readonly ILogger<CoffeeController> _logger;
 
@@ -17,21 +17,21 @@ namespace CoffeeShop.Controllers
             _logger = logger;
         }
 
-        [HttpGet(Name = "GetCoffee")]
-        public IEnumerable<Coffee> Get()
+        [HttpGet]
+        public IEnumerable<Coffee> GetList()
         {
             return db.Coffees;
         }
 
         [HttpPost]
-        public void Post([FromForm]Coffee coffee)
+        public void PostNewCoffee([FromBody]Coffee coffee)
         {
             db.Coffees.Add(coffee);
             db.SaveChanges();
         }
 
         [HttpPut]
-        public void Put(int id, [FromForm] Coffee coffee)
+        public void PutById(int id, [FromBody] Coffee coffee)
         {
             if (id == coffee.Id)
             {
@@ -41,7 +41,7 @@ namespace CoffeeShop.Controllers
         }
 
         [HttpDelete]
-        public void Delete(int id)
+        public void DeleteById(int id)
         {
             Coffee coffee = db.Coffees.Find(id);
             if (coffee != null)
