@@ -57,11 +57,6 @@ namespace CoffeeShop.Controllers
         [HttpDelete]
         public void DeleteCoffee(int id)
         {
-            if (!db.Coffees.Any(x => x.Id == id))
-            {
-                throw new ArgumentException("Coffee with this id does not exist", nameof(id));
-            }
-
             Coffee coffee = db.Coffees.Find(id);
 
             if (coffee != null)
