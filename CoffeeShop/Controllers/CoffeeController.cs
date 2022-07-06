@@ -31,10 +31,7 @@ namespace CoffeeShop.Controllers
                 throw new ArgumentException("A coffee with this id already exists", nameof(coffee));
             }
 
-            if (!IsCoffeeValid(coffee))
-            {
-                throw new ArgumentException("Entered data is not correct", nameof(coffee));
-            }
+            CoffeeValidation(coffee);
 
             db.Coffees.Add(coffee);
             db.SaveChanges();
@@ -48,10 +45,7 @@ namespace CoffeeShop.Controllers
                 throw new ArgumentException("Coffee with this id does not exist", nameof(coffee));
             }
 
-            if (!IsCoffeeValid(coffee))
-            {
-                throw new ArgumentException("Entered data is not correct", nameof(coffee));
-            }
+            CoffeeValidation(coffee);
 
             if (id == coffee.Id)
             {
@@ -77,19 +71,17 @@ namespace CoffeeShop.Controllers
             }
         }
 
-        private bool IsCoffeeValid(Coffee coffee)
+        private void CoffeeValidation(Coffee coffee)
         {
             if (string.IsNullOrWhiteSpace(coffee.Name) || coffee.Name.Length > 30)
             {
-                return false;
+                throw new ArgumentException("Entered name is not correct", nameof(coffee));
             }
 
             if (coffee.Price <= 0)
             {
-                return false;
+                throw new ArgumentException("Entered price is not correct", nameof(coffee));
             }
-
-            return true;
         }
     }
 }
