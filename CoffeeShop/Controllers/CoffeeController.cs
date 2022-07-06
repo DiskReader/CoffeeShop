@@ -18,13 +18,13 @@ namespace CoffeeShop.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Coffee> GetList()
+        public IEnumerable<Coffee> GetCoffeeList()
         {
             return db.Coffees;
         }
 
         [HttpPost]
-        public void PostNewCoffee([FromBody]Coffee coffee)
+        public void CreateCoffee([FromBody]Coffee coffee)
         {
             if (db.Coffees.Any(x => x.Id == coffee.Id))
             {
@@ -41,7 +41,7 @@ namespace CoffeeShop.Controllers
         }
 
         [HttpPut]
-        public void PutById(int id, [FromBody]Coffee coffee)
+        public void ChangeCoffee(int id, [FromBody]Coffee coffee)
         {
             if (!db.Coffees.Any(x => x.Id == coffee.Id))
             {
@@ -61,7 +61,7 @@ namespace CoffeeShop.Controllers
         }
 
         [HttpDelete]
-        public void DeleteById(int id)
+        public void DeleteCoffee(int id)
         {
             if (!db.Coffees.Any(x => x.Id == id))
             {
