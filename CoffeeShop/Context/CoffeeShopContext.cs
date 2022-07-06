@@ -32,7 +32,7 @@ namespace CoffeeShop.Context
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Name)
-                    .HasMaxLength(10)
+                    .HasMaxLength(30)
                     .IsFixedLength();
 
                 entity.Property(e => e.Price).HasColumnType("decimal(18, 0)");
