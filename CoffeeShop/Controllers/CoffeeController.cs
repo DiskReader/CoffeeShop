@@ -23,6 +23,19 @@ namespace CoffeeShop.Controllers
             return db.Coffees;
         }
 
+        [HttpGet("{id}")]
+        public async Task<Coffee> GetCoffeeById(int id)
+        {
+            var coffee = await db.Coffees.FindAsync(id);
+
+            if (coffee == null)
+            {
+                throw new Exception("Coffee with this id does not exist");
+            }
+
+            return coffee;
+        }
+
         [HttpPost]
         public void CreateCoffee([FromBody]Coffee coffee)
         {
