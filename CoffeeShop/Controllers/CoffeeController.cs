@@ -18,21 +18,35 @@ namespace CoffeeShop.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Coffee> GetList()
+        public IEnumerable<Coffee> GetCoffeeList()
         {
             return db.Coffees;
         }
 
         [HttpPost]
-        public void PostNewCoffee([FromBody]Coffee coffee)
+        public void CreateCoffee([FromBody]Coffee coffee)
         {
+            if (db.Coffees.Any(x => x.Id == coffee.Id))
+            {
+                throw new ArgumentException("A coffee with this id already exists", nameof(coffee));
+            }
+
+            CoffeeValidation(coffee);
+
             db.Coffees.Add(coffee);
             db.SaveChanges();
         }
 
         [HttpPut]
-        public void PutById(int id, [FromBody] Coffee coffee)
+        public void ChangeCoffee(int id, [FromBody]Coffee coffee)
         {
+            if (!db.Coffees.Any(x => x.Id == coffee.Id))
+            {
+                throw new ArgumentException("Coffee with this id does not exist", nameof(coffee));
+            }
+
+            CoffeeValidation(coffee);
+
             if (id == coffee.Id)
             {
                 db.Entry(coffee).State = EntityState.Modified;
@@ -41,13 +55,27 @@ namespace CoffeeShop.Controllers
         }
 
         [HttpDelete]
-        public void DeleteById(int id)
+        public void DeleteCoffee(int id)
         {
             Coffee coffee = db.Coffees.Find(id);
+
             if (coffee != null)
             {
                 db.Coffees.Remove(coffee);
                 db.SaveChanges();
+            }
+        }
+
+        private void CoffeeValidation(Coffee coffee)
+        {
+            if (string.IsNullOrWhiteSpace(coffee.Name) || coffee.Name.Length > 30)
+            {
+                throw new ArgumentException("Entered name is not correct", nameof(coffee));
+            }
+
+            if (coffee.Price <= 0)
+            {
+                throw new ArgumentException("Entered price is not correct", nameof(coffee));
             }
         }
     }
