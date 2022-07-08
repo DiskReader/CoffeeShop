@@ -12,16 +12,8 @@ namespace CoffeeShop.Context
             : base(options)
         {
         }
-
+        
         public virtual DbSet<Coffee> Coffees { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Server=MA-BOII;Database=CoffeeShop;Trusted_Connection=True;");
-            }
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
