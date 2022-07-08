@@ -1,14 +1,14 @@
 ﻿using CoffeeShop.Context;
-using CoffeeShop.Interfaces;
+using CoffeeShop.Interfaces.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace CoffeeShop.Services
 {
-    public class CoffeeShopDbService : ICoffeeShopDbService
+    public class CoffeeShopService : ICoffeeShopService
     {
         private readonly CoffeeShopContext _db;
 
-        public CoffeeShopDbService(CoffeeShopContext db)
+        public CoffeeShopService(CoffeeShopContext db)
         {
             _db = db;
         }

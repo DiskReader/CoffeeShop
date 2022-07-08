@@ -1,5 +1,5 @@
 using CoffeeShop.Context;
-using CoffeeShop.Interfaces;
+using CoffeeShop.Interfaces.Services;
 using CoffeeShop.Middlewares;
 using CoffeeShop.Services;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 var configuration = builder.Configuration;
 builder.Services.AddDbContext<CoffeeShopContext>(c => c.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddScoped<ICoffeeShopDbService, CoffeeShopDbService>();
+builder.Services.AddScoped<ICoffeeShopService, CoffeeShopService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

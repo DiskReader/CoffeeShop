@@ -1,6 +1,6 @@
-﻿namespace CoffeeShop.Interfaces
+﻿namespace CoffeeShop.Interfaces.Services
 {
-    public interface ICoffeeShopDbService
+    public interface ICoffeeShopService
     {
         IEnumerable<Coffee> GetCoffeeList();
         Task<Coffee> GetCoffeeById(int id);

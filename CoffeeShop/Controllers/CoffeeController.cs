@@ -1,4 +1,4 @@
-﻿using CoffeeShop.Interfaces;
+﻿using CoffeeShop.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoffeeShop.Controllers
@@ -7,12 +7,10 @@ namespace CoffeeShop.Controllers
     [Route("[controller]")]
     public class CoffeeController : Controller
     {
-        private readonly ILogger<CoffeeController> _logger;
-        private readonly ICoffeeShopDbService _service;
+        private readonly ICoffeeShopService _service;
 
-        public CoffeeController(ILogger<CoffeeController> logger, ICoffeeShopDbService service)
+        public CoffeeController(ICoffeeShopService service)
         {
-            _logger = logger;
             _service = service;
         }
 
