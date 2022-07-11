@@ -1,4 +1,5 @@
-﻿using CoffeeShop.Interfaces.Services;
+﻿using AutoMapper;
+using CoffeeShop.Interfaces.Services;
 using CoffeeShop.Mappers;
 using CoffeeShop.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -10,11 +11,12 @@ namespace CoffeeShop.Controllers
     public class CoffeeController : Controller
     {
         private readonly ICoffeeShopService _service;
-        private readonly CoffeeMapper _mapper;
+        private readonly IMapper _mapper;
 
-        public CoffeeController(ICoffeeShopService service)
+        public CoffeeController(ICoffeeShopService service, IMapper mapper)
         {
             _service = service;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -22,7 +24,7 @@ namespace CoffeeShop.Controllers
         {
             var coffees = _service.GetCoffeeList();
 
-            return _mapper.Map(coffees);
+            return _mapper.Map<IEnumerable<CoffeeViewModel>>(coffees);
         }
 
         [HttpGet("{id}")]
@@ -30,20 +32,20 @@ namespace CoffeeShop.Controllers
         {
             var coffee = await _service.GetCoffeeByIdAsync(id);
 
-            return _mapper.Map(coffee);
+            return _mapper.Map<CoffeeViewModel>(coffee);
         }
 
         [HttpPost]
         public void CreateCoffee([FromBody]CoffeeViewModel coffee)
         {
-            var result = _mapper.Map(coffee);
+            var result = _mapper.Map<Coffee>(coffee);
             _service.CreateCoffee(result);
         }
 
         [HttpPut]
         public void ChangeCoffee(int id, [FromBody]CoffeeViewModel coffee)
         {
-            var result = _mapper.Map(coffee);
+            var result = _mapper.Map<Coffee>(coffee);
             _service.ChangeCoffee(id, result);
         }
 
