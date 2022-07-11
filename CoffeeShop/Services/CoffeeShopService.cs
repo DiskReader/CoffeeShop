@@ -17,9 +17,9 @@ namespace CoffeeShop.Services
             return _repository.GetCoffeeList();
         }
 
-        public async Task<Coffee> GetCoffeeById(int id)
+        public async Task<Coffee> GetCoffeeByIdAsync(int id)
         {
-            var coffee = await _repository.GetCoffeeById(id);
+            var coffee = await _repository.GetCoffeeByIdAsync(id);
 
             if (coffee == null)
             {
@@ -62,7 +62,7 @@ namespace CoffeeShop.Services
 
         public void DeleteCoffee(int id)
         {
-            Coffee coffee = _repository.GetCoffeeById(id).Result;
+            Coffee coffee = _repository.GetCoffeeByIdAsync(id).Result;
 
             if (coffee != null)
             {

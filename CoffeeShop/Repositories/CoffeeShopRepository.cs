@@ -18,7 +18,7 @@ namespace CoffeeShop.Repositories
             return _db.Coffees;
         }
 
-        public async Task<Coffee> GetCoffeeById(int id)
+        public async Task<Coffee> GetCoffeeByIdAsync(int id)
         {
             var coffee = await _db.Coffees.FindAsync(id);
 
