@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CoffeeShop.Interfaces.Services;
 using CoffeeShop.Mappers;
+using CoffeeShop.Models;
 using CoffeeShop.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,31 +23,33 @@ namespace CoffeeShop.Controllers
         [HttpGet]
         public IEnumerable<CoffeeViewModel> GetCoffeeList()
         {
-            var coffees = _service.GetCoffeeList();
+            var coffeeModels = _service.GetCoffeeList();
 
-            return _mapper.Map<IEnumerable<CoffeeViewModel>>(coffees);
+            return _mapper.Map<IEnumerable<CoffeeViewModel>>(coffeeModels);
         }
 
         [HttpGet("{id}")]
         public async Task<CoffeeViewModel> GetCoffeeByIdAsync(int id)
         {
-            var coffee = await _service.GetCoffeeByIdAsync(id);
+            var coffeeModels = await _service.GetCoffeeByIdAsync(id);
 
-            return _mapper.Map<CoffeeViewModel>(coffee);
+            return _mapper.Map<CoffeeViewModel>(coffeeModels);
         }
 
         [HttpPost]
-        public void CreateCoffee([FromBody]CoffeeViewModel coffee)
+        public void CreateCoffee([FromBody]CoffeeViewModel coffeeViewModel)
         {
-            var result = _mapper.Map<Coffee>(coffee);
-            _service.CreateCoffee(result);
+            var coffeeModel = new CoffeeModel();
+            _mapper.Map(coffeeViewModel, coffeeModel);
+            _service.CreateCoffee(coffeeModel);
         }
 
         [HttpPut]
-        public void ChangeCoffee(int id, [FromBody]CoffeeViewModel coffee)
+        public void ChangeCoffee(int id, [FromBody]CoffeeViewModel coffeeViewModel)
         {
-            var result = _mapper.Map<Coffee>(coffee);
-            _service.ChangeCoffee(id, result);
+            var coffeeModel = new CoffeeModel();
+            _mapper.Map(coffeeViewModel, coffeeModel);
+            _service.ChangeCoffee(id, coffeeModel);
         }
 
         [HttpDelete]
