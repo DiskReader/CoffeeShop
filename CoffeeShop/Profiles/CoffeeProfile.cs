@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CoffeeShop.Models;
 using CoffeeShop.ViewModels;
 
 namespace CoffeeShop.Profiles
@@ -7,7 +8,8 @@ namespace CoffeeShop.Profiles
     {
         public CoffeeProfile()
         {
-            CreateMap<Coffee, CoffeeViewModel>().ReverseMap();
+            CreateMap<CoffeeViewModel, CoffeeModel>().ReverseMap();
+            CreateMap<CoffeeModel, Coffee>().ReverseMap();
         }
     }
 }

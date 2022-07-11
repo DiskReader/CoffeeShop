@@ -1,23 +1,28 @@
-﻿using CoffeeShop.Interfaces.Repositories;
+﻿using AutoMapper;
+using CoffeeShop.Interfaces.Repositories;
 using CoffeeShop.Interfaces.Services;
+using CoffeeShop.Models;
 
 namespace CoffeeShop.Services
 {
     public class CoffeeShopService : ICoffeeShopService
     {
         private readonly ICoffeeShopRepository _repository;
+        private readonly IMapper _mapper;
 
-        public CoffeeShopService(ICoffeeShopRepository repository)
+        public CoffeeShopService(ICoffeeShopRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
-        public IEnumerable<Coffee> GetCoffeeList()
+        public IEnumerable<CoffeeModel> GetCoffeeList()
         {
-            return _repository.GetCoffeeList();
+            var coffees = _repository.GetCoffeeList();
+            return _mapper.Map<IEnumerable<CoffeeModel>>(coffees);
         }
 
-        public async Task<Coffee> GetCoffeeByIdAsync(int id)
+        public async Task<CoffeeModel> GetCoffeeByIdAsync(int id)
         {
             var coffee = await _repository.GetCoffeeByIdAsync(id);
 
@@ -26,35 +31,41 @@ namespace CoffeeShop.Services
                 throw new Exception("Coffee with this id does not exist");
             }
 
-            return coffee;
+            var coffeeModel = new CoffeeModel();
+            _mapper.Map(coffee, coffeeModel);
+
+            return coffeeModel;
         }
 
-        public void CreateCoffee(Coffee coffee)
+        public void CreateCoffee(CoffeeModel coffeeModel)
         {
             var coffeeList = _repository.GetCoffeeList().ToList();
 
-            if (coffeeList.Any(x => x.Id == coffee.Id))
+            if (coffeeList.Any(x => x.Id == coffeeModel.Id))
             {
-                throw new ArgumentException("A coffee with this id already exists", nameof(coffee));
+                throw new ArgumentException("A coffee with this id already exists", nameof(coffeeModel));
             }
 
-            CoffeeValidation(coffee);
-
+            CoffeeValidation(coffeeModel);
+            var coffee = new Coffee();
+            _mapper.Map(coffeeModel, coffee);
             _repository.CreateCoffee(coffee);
         }
 
-        public void ChangeCoffee(int id, Coffee coffee)
+        public void ChangeCoffee(int id, CoffeeModel coffeeModel)
         {
             var coffeeList = _repository.GetCoffeeList().ToList();
 
-            if (!coffeeList.Any(x => x.Id == coffee.Id))
+            if (!coffeeList.Any(x => x.Id == coffeeModel.Id))
             {
-                throw new ArgumentException("Coffee with this id does not exist", nameof(coffee));
+                throw new ArgumentException("Coffee with this id does not exist", nameof(coffeeModel));
             }
 
-            CoffeeValidation(coffee);
+            CoffeeValidation(coffeeModel);
+            var coffee = new Coffee();
+            _mapper.Map(coffeeModel, coffee);
 
-            if (id == coffee.Id)
+            if (id == coffeeModel.Id)
             {
                 _repository.ChangeCoffee(id, coffee);
             }
@@ -70,16 +81,16 @@ namespace CoffeeShop.Services
             }
         }
 
-        private void CoffeeValidation(Coffee coffee)
+        private void CoffeeValidation(CoffeeModel coffeeModel)
         {
-            if (string.IsNullOrWhiteSpace(coffee.Name) || coffee.Name.Length > 30)
+            if (string.IsNullOrWhiteSpace(coffeeModel.Name) || coffeeModel.Name.Length > 30)
             {
-                throw new ArgumentException("Entered name is not correct", nameof(coffee));
+                throw new ArgumentException("Entered name is not correct", nameof(coffeeModel));
             }
 
-            if (coffee.Price <= 0)
+            if (coffeeModel.Price <= 0)
             {
-                throw new ArgumentException("Entered price is not correct", nameof(coffee));
+                throw new ArgumentException("Entered price is not correct", nameof(coffeeModel));
             }
         }
     }
