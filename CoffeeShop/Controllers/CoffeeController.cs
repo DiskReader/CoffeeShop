@@ -1,4 +1,6 @@
 ﻿using CoffeeShop.Interfaces.Services;
+using CoffeeShop.Mappers;
+using CoffeeShop.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoffeeShop.Controllers
@@ -8,6 +10,7 @@ namespace CoffeeShop.Controllers
     public class CoffeeController : Controller
     {
         private readonly ICoffeeShopService _service;
+        private readonly CoffeeMapper _mapper;
 
         public CoffeeController(ICoffeeShopService service)
         {
@@ -15,29 +18,33 @@ namespace CoffeeShop.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Coffee> GetCoffeeList()
+        public IEnumerable<CoffeeViewModel> GetCoffeeList()
         {
-            return _service.GetCoffeeList();
+            var coffees = _service.GetCoffeeList();
+
+            return _mapper.Map(coffees);
         }
 
         [HttpGet("{id}")]
-        public async Task<Coffee> GetCoffeeByIdAsync(int id)
+        public async Task<CoffeeViewModel> GetCoffeeByIdAsync(int id)
         {
             var coffee = await _service.GetCoffeeByIdAsync(id);
 
-            return coffee;
+            return _mapper.Map(coffee);
         }
 
         [HttpPost]
-        public void CreateCoffee([FromBody]Coffee coffee)
+        public void CreateCoffee([FromBody]CoffeeViewModel coffee)
         {
-            _service.CreateCoffee(coffee);
+            var result = _mapper.Map(coffee);
+            _service.CreateCoffee(result);
         }
 
         [HttpPut]
-        public void ChangeCoffee(int id, [FromBody]Coffee coffee)
+        public void ChangeCoffee(int id, [FromBody]CoffeeViewModel coffee)
         {
-            _service.ChangeCoffee(id, coffee);
+            var result = _mapper.Map(coffee);
+            _service.ChangeCoffee(id, result);
         }
 
         [HttpDelete]
