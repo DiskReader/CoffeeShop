@@ -21,9 +21,9 @@ namespace CoffeeShop.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<Coffee> GetCoffeeById(int id)
+        public async Task<Coffee> GetCoffeeByIdAsync(int id)
         {
-            var coffee = await _service.GetCoffeeById(id);
+            var coffee = await _service.GetCoffeeByIdAsync(id);
 
             return coffee;
         }

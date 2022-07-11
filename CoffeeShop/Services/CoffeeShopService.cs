@@ -1,26 +1,25 @@
-﻿using CoffeeShop.Context;
+﻿using CoffeeShop.Interfaces.Repositories;
 using CoffeeShop.Interfaces.Services;
-using Microsoft.EntityFrameworkCore;
 
 namespace CoffeeShop.Services
 {
     public class CoffeeShopService : ICoffeeShopService
     {
-        private readonly CoffeeShopContext _db;
+        private readonly ICoffeeShopRepository _repository;
 
-        public CoffeeShopService(CoffeeShopContext db)
+        public CoffeeShopService(ICoffeeShopRepository repository)
         {
-            _db = db;
+            _repository = repository;
         }
 
         public IEnumerable<Coffee> GetCoffeeList()
         {
-            return _db.Coffees;
+            return _repository.GetCoffeeList();
         }
 
-        public async Task<Coffee> GetCoffeeById(int id)
+        public async Task<Coffee> GetCoffeeByIdAsync(int id)
         {
-            var coffee = await _db.Coffees.FindAsync(id);
+            var coffee = await _repository.GetCoffeeByIdAsync(id);
 
             if (coffee == null)
             {
@@ -32,20 +31,23 @@ namespace CoffeeShop.Services
 
         public void CreateCoffee(Coffee coffee)
         {
-            if (_db.Coffees.Any(x => x.Id == coffee.Id))
+            var coffeeList = _repository.GetCoffeeList().ToList();
+
+            if (coffeeList.Any(x => x.Id == coffee.Id))
             {
                 throw new ArgumentException("A coffee with this id already exists", nameof(coffee));
             }
 
             CoffeeValidation(coffee);
 
-            _db.Coffees.Add(coffee);
-            _db.SaveChanges();
+            _repository.CreateCoffee(coffee);
         }
 
         public void ChangeCoffee(int id, Coffee coffee)
         {
-            if (!_db.Coffees.Any(x => x.Id == coffee.Id))
+            var coffeeList = _repository.GetCoffeeList().ToList();
+
+            if (!coffeeList.Any(x => x.Id == coffee.Id))
             {
                 throw new ArgumentException("Coffee with this id does not exist", nameof(coffee));
             }
@@ -54,19 +56,17 @@ namespace CoffeeShop.Services
 
             if (id == coffee.Id)
             {
-                _db.Entry(coffee).State = EntityState.Modified;
-                _db.SaveChanges();
+                _repository.ChangeCoffee(id, coffee);
             }
         }
 
         public void DeleteCoffee(int id)
         {
-            Coffee coffee = _db.Coffees.Find(id);
+            Coffee coffee = _repository.GetCoffeeByIdAsync(id).Result;
 
             if (coffee != null)
             {
-                _db.Coffees.Remove(coffee);
-                _db.SaveChanges();
+                _repository.DeleteCoffee(id);
             }
         }
 
