@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using CoffeeShop.Interfaces.Services;
-using CoffeeShop.Models;
 using CoffeeShop.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 

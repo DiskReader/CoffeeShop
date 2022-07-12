@@ -1,10 +1,8 @@
 using CoffeeShop.Context;
 using CoffeeShop.Interfaces.Repositories;
-using CoffeeShop.Interfaces.Services;
 using CoffeeShop.Middlewares;
 using CoffeeShop.Profiles;
 using CoffeeShop.Repositories;
-using CoffeeShop.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

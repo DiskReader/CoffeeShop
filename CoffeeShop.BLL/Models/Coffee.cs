@@ -1,4 +1,4 @@
-﻿namespace CoffeeShop.Models
+﻿namespace CoffeeShop.BLL.Models
 {
     public class Coffee
     {
