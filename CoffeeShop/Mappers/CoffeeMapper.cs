@@ -5,19 +5,19 @@ namespace CoffeeShop.Mappers
 {
     public class CoffeeMapper
     {
-        public CoffeeViewModel Map(Coffee coffee)
+        public CoffeeViewModel Map(CoffeeEntity coffeeEntity)
         {
             return new CoffeeViewModel()
             {
-                Id = coffee.Id,
-                Name = coffee.Name,
-                Price = coffee.Price
+                Id = coffeeEntity.Id,
+                Name = coffeeEntity.Name,
+                Price = coffeeEntity.Price
             };
         }
 
-        public Coffee Map(CoffeeViewModel coffee)
+        public CoffeeEntity Map(CoffeeViewModel coffee)
         {
-            return new Coffee()
+            return new CoffeeEntity()
             {
                 Id = coffee.Id,
                 Name = coffee.Name,
@@ -25,7 +25,7 @@ namespace CoffeeShop.Mappers
             };
         }
 
-        public IEnumerable<CoffeeViewModel> Map(IEnumerable<Coffee> coffees)
+        public IEnumerable<CoffeeViewModel> Map(IEnumerable<CoffeeEntity> coffees)
         {
             var result = new List<CoffeeViewModel>();
 

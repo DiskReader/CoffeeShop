@@ -12,12 +12,12 @@ namespace CoffeeShop.Services
             _repository = repository;
         }
 
-        public IEnumerable<Coffee> GetCoffeeList()
+        public IEnumerable<CoffeeEntity> GetCoffeeList()
         {
             return _repository.GetCoffeeList();
         }
 
-        public async Task<Coffee> GetCoffeeByIdAsync(int id)
+        public async Task<CoffeeEntity> GetCoffeeByIdAsync(int id)
         {
             var coffee = await _repository.GetCoffeeByIdAsync(id);
 
@@ -29,57 +29,57 @@ namespace CoffeeShop.Services
             return coffee;
         }
 
-        public void CreateCoffee(Coffee coffee)
+        public void CreateCoffee(CoffeeEntity coffeeEntity)
         {
             var coffeeList = _repository.GetCoffeeList().ToList();
 
-            if (coffeeList.Any(x => x.Id == coffee.Id))
+            if (coffeeList.Any(x => x.Id == coffeeEntity.Id))
             {
-                throw new ArgumentException("A coffee with this id already exists", nameof(coffee));
+                throw new ArgumentException("A coffee with this id already exists", nameof(coffeeEntity));
             }
 
-            CoffeeValidation(coffee);
+            CoffeeValidation(coffeeEntity);
 
-            _repository.CreateCoffee(coffee);
+            _repository.CreateCoffee(coffeeEntity);
         }
 
-        public void ChangeCoffee(int id, Coffee coffee)
+        public void ChangeCoffee(int id, CoffeeEntity coffeeEntity)
         {
             var coffeeList = _repository.GetCoffeeList().ToList();
 
-            if (!coffeeList.Any(x => x.Id == coffee.Id))
+            if (!coffeeList.Any(x => x.Id == coffeeEntity.Id))
             {
-                throw new ArgumentException("Coffee with this id does not exist", nameof(coffee));
+                throw new ArgumentException("Coffee with this id does not exist", nameof(coffeeEntity));
             }
 
-            CoffeeValidation(coffee);
+            CoffeeValidation(coffeeEntity);
 
-            if (id == coffee.Id)
+            if (id == coffeeEntity.Id)
             {
-                _repository.ChangeCoffee(id, coffee);
+                _repository.ChangeCoffee(id, coffeeEntity);
             }
         }
 
         public void DeleteCoffee(int id)
         {
-            Coffee coffee = _repository.GetCoffeeByIdAsync(id).Result;
+            CoffeeEntity coffeeEntity = _repository.GetCoffeeByIdAsync(id).Result;
 
-            if (coffee != null)
+            if (coffeeEntity != null)
             {
                 _repository.DeleteCoffee(id);
             }
         }
 
-        private void CoffeeValidation(Coffee coffee)
+        private void CoffeeValidation(CoffeeEntity coffeeEntity)
         {
-            if (string.IsNullOrWhiteSpace(coffee.Name) || coffee.Name.Length > 30)
+            if (string.IsNullOrWhiteSpace(coffeeEntity.Name) || coffeeEntity.Name.Length > 30)
             {
-                throw new ArgumentException("Entered name is not correct", nameof(coffee));
+                throw new ArgumentException("Entered name is not correct", nameof(coffeeEntity));
             }
 
-            if (coffee.Price <= 0)
+            if (coffeeEntity.Price <= 0)
             {
-                throw new ArgumentException("Entered price is not correct", nameof(coffee));
+                throw new ArgumentException("Entered price is not correct", nameof(coffeeEntity));
             }
         }
     }

@@ -2,10 +2,10 @@
 {
     public interface ICoffeeShopService
     {
-        IEnumerable<Coffee> GetCoffeeList();
-        Task<Coffee> GetCoffeeByIdAsync(int id);
-        void CreateCoffee(Coffee coffee);
-        void ChangeCoffee(int id, Coffee coffee);
+        IEnumerable<CoffeeEntity> GetCoffeeList();
+        Task<CoffeeEntity> GetCoffeeByIdAsync(int id);
+        void CreateCoffee(CoffeeEntity coffeeEntity);
+        void ChangeCoffee(int id, CoffeeEntity coffeeEntity);
         void DeleteCoffee(int id);
     }
 }
