@@ -1,8 +1,9 @@
-﻿using CoffeeShop.Context;
-using CoffeeShop.Interfaces.Repositories;
+﻿using CoffeeShop.DAL.Context;
+using CoffeeShop.DAL.Entities;
+using CoffeeShop.DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace CoffeeShop.Repositories
+namespace CoffeeShop.DAL.Repositories
 {
     public class CoffeeShopRepository : ICoffeeShopRepository
     {
