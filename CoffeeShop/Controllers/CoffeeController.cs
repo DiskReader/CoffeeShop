@@ -38,16 +38,14 @@ namespace CoffeeShop.Controllers
         [HttpPost]
         public void CreateCoffee([FromBody] CoffeeViewModel coffeeViewModel)
         {
-            var coffee = new Coffee();
-            _mapper.Map(coffeeViewModel, coffee);
+            var coffee = _mapper.Map<Coffee>(coffeeViewModel);
             _service.CreateCoffee(coffee);
         }
 
         [HttpPut]
         public void ChangeCoffee(int id, [FromBody] CoffeeViewModel coffeeViewModel)
         {
-            var coffee = new Coffee();
-            _mapper.Map(coffeeViewModel, coffee);
+            var coffee = _mapper.Map<Coffee>(coffeeViewModel);
             _service.ChangeCoffee(id, coffee);
         }
 

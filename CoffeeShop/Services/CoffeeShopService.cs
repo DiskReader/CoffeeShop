@@ -31,10 +31,7 @@ namespace CoffeeShop.Services
                 throw new Exception("Coffee with this id does not exist");
             }
 
-            var coffee = new Coffee();
-            _mapper.Map(coffeeEntity, coffee);
-
-            return coffee;
+            return _mapper.Map<Coffee>(coffeeEntity);
         }
 
         public void CreateCoffee(Coffee coffee)
@@ -47,8 +44,7 @@ namespace CoffeeShop.Services
             }
 
             CoffeeValidation(coffee);
-            var coffeeEntity = new CoffeeEntity();
-            _mapper.Map(coffee, coffeeEntity);
+            var coffeeEntity = _mapper.Map<CoffeeEntity>(coffee);
             _repository.CreateCoffee(coffeeEntity);
         }
 
@@ -62,8 +58,7 @@ namespace CoffeeShop.Services
             }
 
             CoffeeValidation(coffee);
-            var coffeeEntity = new CoffeeEntity();
-            _mapper.Map(coffee, coffeeEntity);
+            var coffeeEntity = _mapper.Map<CoffeeEntity>(coffee);
 
             if (id == coffee.Id)
             {
