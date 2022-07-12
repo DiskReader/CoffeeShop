@@ -20,9 +20,9 @@ namespace CoffeeShop.Repositories
 
         public async Task<CoffeeEntity> GetCoffeeByIdAsync(int id)
         {
-            var coffee = await _db.Coffees.FindAsync(id);
+            var coffeeEntity = await _db.Coffees.FindAsync(id);
 
-            return coffee;
+            return coffeeEntity;
         }
 
         public void CreateCoffee(CoffeeEntity coffeeEntity)

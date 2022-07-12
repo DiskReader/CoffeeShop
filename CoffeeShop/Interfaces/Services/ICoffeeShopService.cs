@@ -1,11 +1,13 @@
-﻿namespace CoffeeShop.Interfaces.Services
+﻿using CoffeeShop.Models;
+
+namespace CoffeeShop.Interfaces.Services
 {
     public interface ICoffeeShopService
     {
-        IEnumerable<CoffeeEntity> GetCoffeeList();
-        Task<CoffeeEntity> GetCoffeeByIdAsync(int id);
-        void CreateCoffee(CoffeeEntity coffeeEntity);
-        void ChangeCoffee(int id, CoffeeEntity coffeeEntity);
+        IEnumerable<Coffee> GetCoffeeList();
+        Task<Coffee> GetCoffeeByIdAsync(int id);
+        void CreateCoffee(Coffee coffee);
+        void ChangeCoffee(int id, Coffee coffee);
         void DeleteCoffee(int id);
     }
 }

@@ -1,60 +1,71 @@
-﻿using CoffeeShop.Interfaces.Repositories;
+﻿using AutoMapper;
+using CoffeeShop.Interfaces.Repositories;
 using CoffeeShop.Interfaces.Services;
+using CoffeeShop.Models;
 
 namespace CoffeeShop.Services
 {
     public class CoffeeShopService : ICoffeeShopService
     {
         private readonly ICoffeeShopRepository _repository;
+        private readonly IMapper _mapper;
 
-        public CoffeeShopService(ICoffeeShopRepository repository)
+        public CoffeeShopService(ICoffeeShopRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
-        public IEnumerable<CoffeeEntity> GetCoffeeList()
+        public IEnumerable<Coffee> GetCoffeeList()
         {
-            return _repository.GetCoffeeList();
+            var coffeeEntities = _repository.GetCoffeeList();
+            return _mapper.Map<IEnumerable<Coffee>>(coffeeEntities);
         }
 
-        public async Task<CoffeeEntity> GetCoffeeByIdAsync(int id)
+        public async Task<Coffee> GetCoffeeByIdAsync(int id)
         {
-            var coffee = await _repository.GetCoffeeByIdAsync(id);
+            var coffeeEntity = await _repository.GetCoffeeByIdAsync(id);
 
-            if (coffee == null)
+            if (coffeeEntity == null)
             {
                 throw new Exception("Coffee with this id does not exist");
             }
 
+            var coffee = new Coffee();
+            _mapper.Map(coffeeEntity, coffee);
+
             return coffee;
         }
 
-        public void CreateCoffee(CoffeeEntity coffeeEntity)
+        public void CreateCoffee(Coffee coffee)
         {
             var coffeeList = _repository.GetCoffeeList().ToList();
 
-            if (coffeeList.Any(x => x.Id == coffeeEntity.Id))
+            if (coffeeList.Any(x => x.Id == coffee.Id))
             {
-                throw new ArgumentException("A coffee with this id already exists", nameof(coffeeEntity));
+                throw new ArgumentException("A coffee with this id already exists", nameof(coffee));
             }
 
-            CoffeeValidation(coffeeEntity);
-
+            CoffeeValidation(coffee);
+            var coffeeEntity = new CoffeeEntity();
+            _mapper.Map(coffee, coffeeEntity);
             _repository.CreateCoffee(coffeeEntity);
         }
 
-        public void ChangeCoffee(int id, CoffeeEntity coffeeEntity)
+        public void ChangeCoffee(int id, Coffee coffee)
         {
             var coffeeList = _repository.GetCoffeeList().ToList();
 
-            if (!coffeeList.Any(x => x.Id == coffeeEntity.Id))
+            if (!coffeeList.Any(x => x.Id == coffee.Id))
             {
-                throw new ArgumentException("Coffee with this id does not exist", nameof(coffeeEntity));
+                throw new ArgumentException("Coffee with this id does not exist", nameof(coffee));
             }
 
-            CoffeeValidation(coffeeEntity);
+            CoffeeValidation(coffee);
+            var coffeeEntity = new CoffeeEntity();
+            _mapper.Map(coffee, coffeeEntity);
 
-            if (id == coffeeEntity.Id)
+            if (id == coffee.Id)
             {
                 _repository.ChangeCoffee(id, coffeeEntity);
             }
@@ -70,16 +81,16 @@ namespace CoffeeShop.Services
             }
         }
 
-        private void CoffeeValidation(CoffeeEntity coffeeEntity)
+        private void CoffeeValidation(Coffee coffee)
         {
-            if (string.IsNullOrWhiteSpace(coffeeEntity.Name) || coffeeEntity.Name.Length > 30)
+            if (string.IsNullOrWhiteSpace(coffee.Name) || coffee.Name.Length > 30)
             {
-                throw new ArgumentException("Entered name is not correct", nameof(coffeeEntity));
+                throw new ArgumentException("Entered name is not correct", nameof(coffee));
             }
 
-            if (coffeeEntity.Price <= 0)
+            if (coffee.Price <= 0)
             {
-                throw new ArgumentException("Entered price is not correct", nameof(coffeeEntity));
+                throw new ArgumentException("Entered price is not correct", nameof(coffee));
             }
         }
     }
