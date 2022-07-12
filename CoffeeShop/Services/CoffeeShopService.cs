@@ -1,32 +1,37 @@
-﻿using CoffeeShop.Interfaces.Repositories;
+﻿using AutoMapper;
+using CoffeeShop.Interfaces.Repositories;
 using CoffeeShop.Interfaces.Services;
+using CoffeeShop.Models;
 
 namespace CoffeeShop.Services
 {
     public class CoffeeShopService : ICoffeeShopService
     {
         private readonly ICoffeeShopRepository _repository;
+        private readonly IMapper _mapper;
 
-        public CoffeeShopService(ICoffeeShopRepository repository)
+        public CoffeeShopService(ICoffeeShopRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         public IEnumerable<Coffee> GetCoffeeList()
         {
-            return _repository.GetCoffeeList();
+            var coffeeEntities = _repository.GetCoffeeList();
+            return _mapper.Map<IEnumerable<Coffee>>(coffeeEntities);
         }
 
         public async Task<Coffee> GetCoffeeByIdAsync(int id)
         {
-            var coffee = await _repository.GetCoffeeByIdAsync(id);
+            var coffeeEntity = await _repository.GetCoffeeByIdAsync(id);
 
-            if (coffee == null)
+            if (coffeeEntity == null)
             {
                 throw new Exception("Coffee with this id does not exist");
             }
 
-            return coffee;
+            return _mapper.Map<Coffee>(coffeeEntity);
         }
 
         public void CreateCoffee(Coffee coffee)
@@ -39,8 +44,8 @@ namespace CoffeeShop.Services
             }
 
             CoffeeValidation(coffee);
-
-            _repository.CreateCoffee(coffee);
+            var coffeeEntity = _mapper.Map<CoffeeEntity>(coffee);
+            _repository.CreateCoffee(coffeeEntity);
         }
 
         public void ChangeCoffee(int id, Coffee coffee)
@@ -53,18 +58,19 @@ namespace CoffeeShop.Services
             }
 
             CoffeeValidation(coffee);
+            var coffeeEntity = _mapper.Map<CoffeeEntity>(coffee);
 
             if (id == coffee.Id)
             {
-                _repository.ChangeCoffee(id, coffee);
+                _repository.ChangeCoffee(id, coffeeEntity);
             }
         }
 
         public void DeleteCoffee(int id)
         {
-            Coffee coffee = _repository.GetCoffeeByIdAsync(id).Result;
+            CoffeeEntity coffeeEntity = _repository.GetCoffeeByIdAsync(id).Result;
 
-            if (coffee != null)
+            if (coffeeEntity != null)
             {
                 _repository.DeleteCoffee(id);
             }

@@ -13,35 +13,35 @@ namespace CoffeeShop.Repositories
             _db = db;
         }
 
-        public IEnumerable<Coffee> GetCoffeeList()
+        public IEnumerable<CoffeeEntity> GetCoffeeList()
         {
             return _db.Coffees;
         }
 
-        public async Task<Coffee> GetCoffeeByIdAsync(int id)
+        public async Task<CoffeeEntity> GetCoffeeByIdAsync(int id)
         {
-            var coffee = await _db.Coffees.FindAsync(id);
+            var coffeeEntity = await _db.Coffees.FindAsync(id);
 
-            return coffee;
+            return coffeeEntity;
         }
 
-        public void CreateCoffee(Coffee coffee)
+        public void CreateCoffee(CoffeeEntity coffeeEntity)
         {
-            _db.Coffees.Add(coffee);
+            _db.Coffees.Add(coffeeEntity);
             _db.SaveChanges();
         }
 
-        public void ChangeCoffee(int id, Coffee coffee)
+        public void ChangeCoffee(int id, CoffeeEntity coffeeEntity)
         {
-            _db.Entry(coffee).State = EntityState.Modified;
+            _db.Entry(coffeeEntity).State = EntityState.Modified;
             _db.SaveChanges();
         }
 
         public void DeleteCoffee(int id)
         {
-            Coffee coffee = _db.Coffees.Find(id);
+            CoffeeEntity coffeeEntity = _db.Coffees.Find(id);
 
-            _db.Coffees.Remove(coffee);
+            _db.Coffees.Remove(coffeeEntity);
             _db.SaveChanges();
         }
     }

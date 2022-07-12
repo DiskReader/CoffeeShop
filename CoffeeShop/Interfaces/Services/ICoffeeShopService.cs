@@ -1,4 +1,6 @@
-﻿namespace CoffeeShop.Interfaces.Services
+﻿using CoffeeShop.Models;
+
+namespace CoffeeShop.Interfaces.Services
 {
     public interface ICoffeeShopService
     {

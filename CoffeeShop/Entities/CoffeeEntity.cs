@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-public class Coffee
+public class CoffeeEntity
 {
     [Key]
     public int Id { get; set; }

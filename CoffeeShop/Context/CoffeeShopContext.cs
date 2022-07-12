@@ -13,11 +13,11 @@ namespace CoffeeShop.Context
         {
         }
         
-        public virtual DbSet<Coffee> Coffees { get; set; }
+        public virtual DbSet<CoffeeEntity> Coffees { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Coffee>(entity =>
+            modelBuilder.Entity<CoffeeEntity>(entity =>
             {
                 entity.ToTable("Coffee");
 
