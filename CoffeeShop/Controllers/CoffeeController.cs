@@ -20,39 +20,39 @@ namespace CoffeeShop.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<CoffeeViewModel> GetCoffeeList()
+        public async Task<IEnumerable<CoffeeViewModel>> GetAllCoffeeAsync(CancellationToken cancellationToken)
         {
-            var coffees = _service.GetAllCoffeeAsync();
+            var coffees = await _service.GetAllCoffeeAsync(cancellationToken);
 
             return _mapper.Map<IEnumerable<CoffeeViewModel>>(coffees);
         }
 
         [HttpGet("{id}")]
-        public async Task<CoffeeViewModel> GetCoffeeByIdAsync(int id)
+        public async Task<CoffeeViewModel> GetCoffeeByIdAsync(int id, CancellationToken cancellationToken)
         {
-            var coffee = await _service.GetCoffeeByIdAsync(id);
+            var coffee = await _service.GetCoffeeByIdAsync(id, cancellationToken);
 
             return _mapper.Map<CoffeeViewModel>(coffee);
         }
 
         [HttpPost]
-        public void CreateCoffee([FromBody] CoffeeViewModel coffeeViewModel)
+        public async Task CreateCoffeeAsync([FromBody] CoffeeViewModel coffeeViewModel, CancellationToken cancellationToken)
         {
             var coffee = _mapper.Map<Coffee>(coffeeViewModel);
-            _service.CreateCoffeeAsync(coffee);
+            await _service.CreateCoffeeAsync(coffee, cancellationToken);
         }
 
         [HttpPut]
-        public void ChangeCoffee(int id, [FromBody] CoffeeViewModel coffeeViewModel)
+        public async Task ChangeCoffeeAsync(int id, [FromBody] CoffeeViewModel coffeeViewModel, CancellationToken cancellationToken)
         {
             var coffee = _mapper.Map<Coffee>(coffeeViewModel);
-            _service.ChangeCoffeeAsync(id, coffee);
+            await _service.ChangeCoffeeAsync(id, coffee, cancellationToken);
         }
 
-        [HttpDelete]
-        public void DeleteCoffee(int id)
+        [HttpDelete("{id}")]
+        public async Task DeleteCoffeeByIdAsync(int id, CancellationToken cancellationToken)
         {
-            _service.DeleteCoffeeByIdAsync(id);
+            await _service.DeleteCoffeeByIdAsync(id, cancellationToken);
         }
     }
 }
