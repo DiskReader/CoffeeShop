@@ -17,15 +17,15 @@ namespace CoffeeShop.BLL.Services
             _mapper = mapper;
         }
 
-        public IEnumerable<Coffee> GetCoffeeList()
+        public async Task<IEnumerable<Coffee>> GetAllCoffeeAsync(CancellationToken cancellationToken)
         {
-            var coffeeEntities = _repository.GetAllCoffeeAsync();
+            var coffeeEntities = await _repository.GetAllCoffeeAsync(cancellationToken);
             return _mapper.Map<IEnumerable<Coffee>>(coffeeEntities);
         }
 
-        public async Task<Coffee> GetCoffeeByIdAsync(int id)
+        public async Task<Coffee> GetCoffeeByIdAsync(int id, CancellationToken cancellationToken)
         {
-            var coffeeEntity = await _repository.GetCoffeeByIdAsync(id);
+            var coffeeEntity = await _repository.GetCoffeeByIdAsync(id, cancellationToken);
 
             if (coffeeEntity == null)
             {
@@ -35,25 +35,25 @@ namespace CoffeeShop.BLL.Services
             return _mapper.Map<Coffee>(coffeeEntity);
         }
 
-        public void CreateCoffee(Coffee coffee)
+        public async Task CreateCoffeeAsync(Coffee coffee, CancellationToken cancellationToken)
         {
-            var coffeeList = _repository.GetAllCoffeeAsync().ToList();
+            var result = await _repository.GetCoffeeByIdAsync(coffee.Id, cancellationToken);
 
-            if (coffeeList.Any(x => x.Id == coffee.Id))
+            if (result != null)
             {
-                throw new ArgumentException("A coffee with this id already exists", nameof(coffee));
+                throw new ArgumentException("A coffee with this id already exists", nameof(result));
             }
 
             CoffeeValidation(coffee);
             var coffeeEntity = _mapper.Map<CoffeeEntity>(coffee);
-            _repository.CreateCoffeeAsync(coffeeEntity);
+            await _repository.CreateCoffeeAsync(coffeeEntity, cancellationToken);
         }
 
-        public void ChangeCoffee(int id, Coffee coffee)
+        public async Task ChangeCoffeeAsync(int id, Coffee coffee, CancellationToken cancellationToken)
         {
-            var coffeeList = _repository.GetAllCoffeeAsync().ToList();
+            var result = await _repository.GetCoffeeByIdAsync(coffee.Id, cancellationToken);
 
-            if (!coffeeList.Any(x => x.Id == coffee.Id))
+            if (result == null)
             {
                 throw new ArgumentException("Coffee with this id does not exist", nameof(coffee));
             }
@@ -63,17 +63,17 @@ namespace CoffeeShop.BLL.Services
 
             if (id == coffee.Id)
             {
-                _repository.ChangeCoffeeAsync(id, coffeeEntity);
+                await _repository.ChangeCoffeeAsync(id, coffeeEntity, cancellationToken);
             }
         }
 
-        public void DeleteCoffee(int id)
+        public async Task DeleteCoffeeByIdAsync(int id, CancellationToken cancellationToken)
         {
-            CoffeeEntity coffeeEntity = _repository.GetCoffeeByIdAsync(id).Result;
+            var coffeeEntity = await _repository.GetCoffeeByIdAsync(id, cancellationToken);
 
             if (coffeeEntity != null)
             {
-                _repository.DeleteCoffeeByIdAsync(id);
+                await _repository.DeleteCoffeeByIdAsync(id, cancellationToken);
             }
         }
 

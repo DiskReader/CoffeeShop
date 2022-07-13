@@ -22,7 +22,7 @@ namespace CoffeeShop.Controllers
         [HttpGet]
         public IEnumerable<CoffeeViewModel> GetCoffeeList()
         {
-            var coffees = _service.GetCoffeeList();
+            var coffees = _service.GetAllCoffeeAsync();
 
             return _mapper.Map<IEnumerable<CoffeeViewModel>>(coffees);
         }
@@ -39,20 +39,20 @@ namespace CoffeeShop.Controllers
         public void CreateCoffee([FromBody] CoffeeViewModel coffeeViewModel)
         {
             var coffee = _mapper.Map<Coffee>(coffeeViewModel);
-            _service.CreateCoffee(coffee);
+            _service.CreateCoffeeAsync(coffee);
         }
 
         [HttpPut]
         public void ChangeCoffee(int id, [FromBody] CoffeeViewModel coffeeViewModel)
         {
             var coffee = _mapper.Map<Coffee>(coffeeViewModel);
-            _service.ChangeCoffee(id, coffee);
+            _service.ChangeCoffeeAsync(id, coffee);
         }
 
         [HttpDelete]
         public void DeleteCoffee(int id)
         {
-            _service.DeleteCoffee(id);
+            _service.DeleteCoffeeByIdAsync(id);
         }
     }
 }
