@@ -14,36 +14,33 @@ namespace CoffeeShop.DAL.Repositories
             _db = db;
         }
 
-        public IEnumerable<CoffeeEntity> GetCoffeeList()
+        public async Task<IEnumerable<CoffeeEntity>> GetAllCoffeeAsync(CancellationToken cancellationToken)
         {
-            return _db.Coffees.AsNoTracking();
+            return await _db.Coffees.AsNoTracking().ToListAsync(cancellationToken);
         }
 
-        public async Task<CoffeeEntity> GetCoffeeByIdAsync(int id)
+        public async Task<CoffeeEntity> GetCoffeeByIdAsync(int id, CancellationToken cancellationToken)
         {
-            var coffeeEntity = await _db.Coffees.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
-
-            return coffeeEntity;
+            return await _db.Coffees.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
 
-        public void CreateCoffee(CoffeeEntity coffeeEntity)
+        public async Task CreateCoffeeAsync(CoffeeEntity coffeeEntity, CancellationToken cancellationToken)
         {
-            _db.Coffees.Add(coffeeEntity);
-            _db.SaveChanges();
+            await _db.Coffees.AddAsync(coffeeEntity, cancellationToken);
+            await _db.SaveChangesAsync(cancellationToken);
         }
 
-        public void ChangeCoffee(int id, CoffeeEntity coffeeEntity)
+        public async Task ChangeCoffeeAsync(int id, CoffeeEntity coffeeEntity, CancellationToken cancellationToken)
         {
             _db.Entry(coffeeEntity).State = EntityState.Modified;
-            _db.SaveChanges();
+            await _db.SaveChangesAsync(cancellationToken);
         }
 
-        public void DeleteCoffee(int id)
+        public async Task DeleteCoffeeByIdAsync(int id, CancellationToken cancellationToken)
         {
-            CoffeeEntity coffeeEntity = _db.Coffees.Find(id);
-
+            var coffeeEntity = await _db.Coffees.FindAsync(id, cancellationToken);
             _db.Coffees.Remove(coffeeEntity);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync(cancellationToken);
         }
     }
 }

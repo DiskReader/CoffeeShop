@@ -19,7 +19,7 @@ namespace CoffeeShop.BLL.Services
 
         public IEnumerable<Coffee> GetCoffeeList()
         {
-            var coffeeEntities = _repository.GetCoffeeList();
+            var coffeeEntities = _repository.GetAllCoffeeAsync();
             return _mapper.Map<IEnumerable<Coffee>>(coffeeEntities);
         }
 
@@ -37,7 +37,7 @@ namespace CoffeeShop.BLL.Services
 
         public void CreateCoffee(Coffee coffee)
         {
-            var coffeeList = _repository.GetCoffeeList().ToList();
+            var coffeeList = _repository.GetAllCoffeeAsync().ToList();
 
             if (coffeeList.Any(x => x.Id == coffee.Id))
             {
@@ -46,12 +46,12 @@ namespace CoffeeShop.BLL.Services
 
             CoffeeValidation(coffee);
             var coffeeEntity = _mapper.Map<CoffeeEntity>(coffee);
-            _repository.CreateCoffee(coffeeEntity);
+            _repository.CreateCoffeeAsync(coffeeEntity);
         }
 
         public void ChangeCoffee(int id, Coffee coffee)
         {
-            var coffeeList = _repository.GetCoffeeList().ToList();
+            var coffeeList = _repository.GetAllCoffeeAsync().ToList();
 
             if (!coffeeList.Any(x => x.Id == coffee.Id))
             {
@@ -63,7 +63,7 @@ namespace CoffeeShop.BLL.Services
 
             if (id == coffee.Id)
             {
-                _repository.ChangeCoffee(id, coffeeEntity);
+                _repository.ChangeCoffeeAsync(id, coffeeEntity);
             }
         }
 
@@ -73,7 +73,7 @@ namespace CoffeeShop.BLL.Services
 
             if (coffeeEntity != null)
             {
-                _repository.DeleteCoffee(id);
+                _repository.DeleteCoffeeByIdAsync(id);
             }
         }
 
