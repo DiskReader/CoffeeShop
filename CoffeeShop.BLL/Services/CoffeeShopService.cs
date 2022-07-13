@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
-using CoffeeShop.Interfaces.Repositories;
-using CoffeeShop.Interfaces.Services;
-using CoffeeShop.Models;
+using CoffeeShop.BLL.Interfaces;
+using CoffeeShop.BLL.Models;
+using CoffeeShop.DAL.Entities;
+using CoffeeShop.DAL.Interfaces;
 
-namespace CoffeeShop.Services
+namespace CoffeeShop.BLL.Services
 {
     public class CoffeeShopService : ICoffeeShopService
     {

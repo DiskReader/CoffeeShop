@@ -1,6 +1,6 @@
-﻿using CoffeeShop.Models;
+﻿using CoffeeShop.BLL.Models;
 
-namespace CoffeeShop.Interfaces.Services
+namespace CoffeeShop.BLL.Interfaces
 {
     public interface ICoffeeShopService
     {

@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CoffeeShop.DAL.Entities;
+using Microsoft.EntityFrameworkCore;
 
-namespace CoffeeShop.Context
+namespace CoffeeShop.DAL.Context
 {
     public partial class CoffeeShopContext : DbContext
     {
