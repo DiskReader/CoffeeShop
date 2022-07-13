@@ -11,8 +11,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddDataAccess(this IServiceCollection services, IConfiguration configuration)
         {
             var connection = configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<CoffeeShopContext>(c => 
-                c.UseSqlServer(connection).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+            services.AddDbContext<CoffeeShopContext>(c => c.UseSqlServer(connection));
             services.AddScoped<ICoffeeShopRepository, CoffeeShopRepository>();
 
             return services;

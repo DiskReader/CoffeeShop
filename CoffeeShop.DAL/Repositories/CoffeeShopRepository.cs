@@ -16,12 +16,12 @@ namespace CoffeeShop.DAL.Repositories
 
         public IEnumerable<CoffeeEntity> GetCoffeeList()
         {
-            return _db.Coffees;
+            return _db.Coffees.AsNoTracking();
         }
 
         public async Task<CoffeeEntity> GetCoffeeByIdAsync(int id)
         {
-            var coffeeEntity = await _db.Coffees.FindAsync(id);
+            var coffeeEntity = await _db.Coffees.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
 
             return coffeeEntity;
         }
