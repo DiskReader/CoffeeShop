@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using CoffeeShop.BLL.Models;
+using CoffeeShop.DAL.Entities;
 using CoffeeShop.ViewModels;
 
 namespace CoffeeShop.Profiles

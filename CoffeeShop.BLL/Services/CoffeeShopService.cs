@@ -1,5 +1,8 @@
-﻿using CoffeeShop.BLL.Interfaces;
+﻿using AutoMapper;
+using CoffeeShop.BLL.Interfaces;
 using CoffeeShop.BLL.Models;
+using CoffeeShop.DAL.Entities;
+using CoffeeShop.DAL.Interfaces;
 
 namespace CoffeeShop.BLL.Services
 {

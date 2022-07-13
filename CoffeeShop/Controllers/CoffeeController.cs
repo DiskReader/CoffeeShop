@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using CoffeeShop.BLL.Interfaces;
+using CoffeeShop.BLL.Models;
 using CoffeeShop.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 

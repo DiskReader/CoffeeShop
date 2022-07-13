@@ -18,4 +18,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CoffeeShop.BLL\CoffeeShop.BLL.csproj" />
+    <ProjectReference Include="..\CoffeeShop.DAL\CoffeeShop.DAL.csproj" />
+  </ItemGroup>
+
 </Project>
