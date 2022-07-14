@@ -4,10 +4,10 @@ namespace CoffeeShop.DAL.Interfaces
 {
     public interface ICoffeeShopRepository
     {
-        IEnumerable<CoffeeEntity> GetCoffeeList();
-        Task<CoffeeEntity> GetCoffeeByIdAsync(int id);
-        void CreateCoffee(CoffeeEntity coffeeEntity);
-        void ChangeCoffee(int id, CoffeeEntity coffeeEntity);
-        void DeleteCoffee(int id);
+        Task<IEnumerable<CoffeeEntity>> GetAllCoffeeAsync(CancellationToken cancellationToken);
+        Task<CoffeeEntity> GetCoffeeByIdAsync(int id, CancellationToken cancellationToken);
+        Task CreateCoffeeAsync(CoffeeEntity coffeeEntity, CancellationToken cancellationToken);
+        Task ChangeCoffeeAsync(int id, CoffeeEntity coffeeEntity, CancellationToken cancellationToken);
+        Task DeleteCoffeeByIdAsync(int id, CancellationToken cancellationToken);
     }
 }

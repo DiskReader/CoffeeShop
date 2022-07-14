@@ -4,10 +4,10 @@ namespace CoffeeShop.BLL.Interfaces
 {
     public interface ICoffeeShopService
     {
-        IEnumerable<Coffee> GetCoffeeList();
-        Task<Coffee> GetCoffeeByIdAsync(int id);
-        void CreateCoffee(Coffee coffee);
-        void ChangeCoffee(int id, Coffee coffee);
-        void DeleteCoffee(int id);
+        Task<IEnumerable<Coffee>> GetAllCoffeeAsync(CancellationToken cancellationToken);
+        Task<Coffee> GetCoffeeByIdAsync(int id, CancellationToken cancellationToken);
+        Task CreateCoffeeAsync(Coffee coffee, CancellationToken cancellationToken);
+        Task ChangeCoffeeAsync(int id, Coffee coffee, CancellationToken cancellationToken);
+        Task DeleteCoffeeByIdAsync(int id, CancellationToken cancellationToken);
     }
 }
