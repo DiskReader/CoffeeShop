@@ -1,13 +1,13 @@
 ﻿namespace CoffeeShop.BLL.Models
 {
-    public class Coffee
+    public class CoffeePack
     {
         public int Id { get; set; }
 
         public string Name { get; set; }
 
-        public decimal Price { get; set; }
+        public List<Coffee> Coffees { get; set; }
 
-        public List<CoffeePack> CoffeePacks { get; set; }
+        public decimal Price { get; set; }
     }
 }
