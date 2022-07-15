@@ -31,9 +31,25 @@ namespace CoffeeShop.DAL.Context
                 entity.Property(e => e.Price).HasColumnType("decimal(18, 0)");
             });
 
-            OnModelCreatingPartial(modelBuilder);
-        }
+            modelBuilder.Entity<CoffeePackEntity>(entity =>
+            {
+                entity.ToTable("CoffeePack");
 
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(30)
+                    .IsFixedLength();
+
+                entity.Property(e => e.Price).HasColumnType("decimal(18, 0)");
+            });
+
+            modelBuilder
+                .Entity<CoffeePackEntity>()
+                .HasMany(c => c.Coffees)
+                .WithMany(c => c.CoffeePacks);
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
