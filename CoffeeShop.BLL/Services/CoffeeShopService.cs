@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using CoffeeShop.BLL.Interfaces;
 using CoffeeShop.BLL.Models;
+using CoffeeShop.BLL.Validators;
 using CoffeeShop.DAL.Entities;
 using CoffeeShop.DAL.Interfaces;
+using FluentValidation;
 
 namespace CoffeeShop.BLL.Services
 {
@@ -10,11 +12,13 @@ namespace CoffeeShop.BLL.Services
     {
         private readonly ICoffeeShopRepository _repository;
         private readonly IMapper _mapper;
+        private readonly IValidator _validator;
 
-        public CoffeeShopService(ICoffeeShopRepository repository, IMapper mapper)
+        public CoffeeShopService(ICoffeeShopRepository repository, IMapper mapper, IValidator validator)
         {
             _repository = repository;
             _mapper = mapper;
+            _validator = validator;
         }
 
         public async Task<IEnumerable<Coffee>> GetAllCoffeeAsync(CancellationToken cancellationToken)
