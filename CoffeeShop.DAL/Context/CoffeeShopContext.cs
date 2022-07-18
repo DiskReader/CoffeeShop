@@ -22,8 +22,6 @@ namespace CoffeeShop.DAL.Context
             {
                 entity.ToTable("Coffee");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.Name)
                     .HasMaxLength(30)
                     .IsFixedLength();
@@ -34,8 +32,6 @@ namespace CoffeeShop.DAL.Context
             modelBuilder.Entity<CoffeePackEntity>(entity =>
             {
                 entity.ToTable("CoffeePack");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Name)
                     .HasMaxLength(30)
