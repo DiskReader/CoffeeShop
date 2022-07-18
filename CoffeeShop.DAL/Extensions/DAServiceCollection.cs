@@ -12,7 +12,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             var connection = configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<CoffeeShopContext>(c => c.UseSqlServer(connection));
-            services.AddScoped<ICoffeeShopRepository, CoffeeShopRepository>();
+            services.AddScoped<ICoffeeRepository, CoffeeRepository>();
 
             return services;
         }

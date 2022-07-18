@@ -1,12 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿namespace CoffeeShop.DAL.Entities;
 
-namespace CoffeeShop.DAL.Entities;
-
-public class CoffeeEntity
+public class CoffeeEntity : Entity
 {
-    [Key]
-    public int Id { get; set; }
-
     public string Name { get; set; }
 
     public decimal Price { get; set; }

@@ -2,7 +2,7 @@
 
 namespace CoffeeShop.DAL.Interfaces
 {
-    public interface ICoffeeShopRepository
+    public interface ICoffeeRepository
     {
         Task<IEnumerable<CoffeeEntity>> GetAllCoffeeAsync(CancellationToken cancellationToken);
         Task<CoffeeEntity> GetCoffeeByIdAsync(int id, CancellationToken cancellationToken);

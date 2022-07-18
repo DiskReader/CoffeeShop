@@ -9,11 +9,11 @@ namespace CoffeeShop.BLL.Services
 {
     public class CoffeeShopService : ICoffeeShopService
     {
-        private readonly ICoffeeShopRepository _repository;
+        private readonly ICoffeeRepository _repository;
         private readonly IMapper _mapper;
         private readonly IValidator<Coffee> _validator;
 
-        public CoffeeShopService(ICoffeeShopRepository repository, IMapper mapper, IValidator<Coffee> validator)
+        public CoffeeShopService(ICoffeeRepository repository, IMapper mapper, IValidator<Coffee> validator)
         {
             _repository = repository;
             _mapper = mapper;
