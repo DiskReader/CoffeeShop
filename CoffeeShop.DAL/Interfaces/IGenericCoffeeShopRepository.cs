@@ -1,11 +1,11 @@
 ﻿namespace CoffeeShop.DAL.Interfaces
 {
-    internal interface IGenericCoffeeShopRepository<T> where T: IEntity
+    public interface IGenericCoffeeShopRepository<T> where T: IEntity
     {
-        Task<IEnumerable<T>> GetAllCoffeeAsync(CancellationToken cancellationToken);
-        Task<T> GetCoffeeByIdAsync(int id, CancellationToken cancellationToken);
-        Task CreateCoffeeAsync(T entity, CancellationToken cancellationToken);
-        Task ChangeCoffeeAsync(int id, T entity, CancellationToken cancellationToken);
-        Task DeleteCoffeeByIdAsync(int id, CancellationToken cancellationToken);
+        Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken);
+        Task<T> GetByIdAsync(int id, CancellationToken cancellationToken);
+        Task CreateAsync(T entity, CancellationToken cancellationToken);
+        Task ChangeAsync(int id, T entity, CancellationToken cancellationToken);
+        Task DeleteByIdAsync(int id, CancellationToken cancellationToken);
     }
 }
