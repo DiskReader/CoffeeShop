@@ -9,6 +9,7 @@ namespace CoffeeShop.BLL.Profiles
         public CoffeeProfile()
         {
             CreateMap<Coffee, CoffeeEntity>().ReverseMap();
+            CreateMap<CoffeePack, CoffeePackEntity>().ReverseMap();
         }
     }
 }
