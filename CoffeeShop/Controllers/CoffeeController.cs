@@ -10,10 +10,10 @@ namespace CoffeeShop.Controllers
     [Route("[controller]")]
     public class CoffeeController : Controller
     {
-        private readonly ICoffeeShopService _service;
+        private readonly ICoffeeService _service;
         private readonly IMapper _mapper;
 
-        public CoffeeController(ICoffeeShopService service, IMapper mapper)
+        public CoffeeController(ICoffeeService service, IMapper mapper)
         {
             _service = service;
             _mapper = mapper;
