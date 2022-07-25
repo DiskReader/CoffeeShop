@@ -10,7 +10,7 @@ namespace CoffeeShop.Controllers
     [Route("[controller]")]
     public class CoffeeController : GenericCoffeeShopController<CoffeeViewModel, Coffee>
     {
-        public CoffeeController(IGenericCoffeeShopService<Coffee> service, IMapper mapper)
+        public CoffeeController(ICoffeeService service, IMapper mapper)
         :base(service, mapper)
         { }
     }

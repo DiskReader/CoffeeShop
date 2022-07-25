@@ -4,8 +4,7 @@ using CoffeeShop.Profiles;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDataAccess(builder.Configuration)
-    .AddBusinessLogic();
+builder.Services.AddBusinessLogic(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(typeof(CoffeeProfile));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -3,7 +3,6 @@ using CoffeeShop.BLL.Interfaces;
 using CoffeeShop.BLL.Models;
 using CoffeeShop.DAL.Entities;
 using CoffeeShop.DAL.Interfaces;
-using CoffeeShop.DAL.Repositories;
 
 namespace CoffeeShop.BLL.Services
 {
@@ -11,10 +10,10 @@ namespace CoffeeShop.BLL.Services
     {
         private readonly ICoffeePackRepository _repository;
 
-        public CoffeePackService(IGenericCoffeeShopRepository<CoffeePackEntity> repository, IMapper mapper)
+        public CoffeePackService(ICoffeePackRepository repository, IMapper mapper)
             : base(repository, mapper)
         {
-            _repository = (CoffeePackRepository)repository;
+            _repository = repository;
         }
 
         public async Task AddCoffeeByIdAsync(CoffeePack coffeePack, int coffeeId, CancellationToken cancellationToken)

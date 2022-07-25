@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CoffeeShop.Controllers
 {
+    [ApiController]
+    [Route("[Controller]")]
     public class GenericCoffeeShopController<TViewModel, TModel> : Controller
         where TViewModel : class
         where TModel : class

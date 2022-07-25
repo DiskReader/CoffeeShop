@@ -1,4 +1,5 @@
 ﻿using CoffeeShop.DAL.Context;
+using CoffeeShop.DAL.Entities;
 using CoffeeShop.DAL.Interfaces;
 using CoffeeShop.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;

@@ -4,15 +4,30 @@
 
 namespace CoffeeShop.DAL.Migrations
 {
-    public partial class CoffeeShopMigration : Migration
+    public partial class CoffeShopMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Coffee",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nchar(30)", fixedLength: true, maxLength: 30, nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,0)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Coffee", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CoffeePack",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nchar(30)", fixedLength: true, maxLength: 30, nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,0)", nullable: false)
                 },
@@ -55,6 +70,9 @@ namespace CoffeeShop.DAL.Migrations
         {
             migrationBuilder.DropTable(
                 name: "CoffeeEntityCoffeePackEntity");
+
+            migrationBuilder.DropTable(
+                name: "Coffee");
 
             migrationBuilder.DropTable(
                 name: "CoffeePack");

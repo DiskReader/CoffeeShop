@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CoffeeShop.DAL.Context
 {
-    public partial class CoffeeShopContext : DbContext
+    public class CoffeeShopContext : DbContext
     {
         public CoffeeShopContext()
         {
@@ -15,6 +15,7 @@ namespace CoffeeShop.DAL.Context
         }
         
         public virtual DbSet<CoffeeEntity> Coffees { get; set; }
+        public virtual DbSet<CoffeeEntity> CoffeePacks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -38,12 +39,22 @@ namespace CoffeeShop.DAL.Context
                     .IsFixedLength();
 
                 entity.Property(e => e.Price).HasColumnType("decimal(18, 0)");
-            });
 
-            modelBuilder
-                .Entity<CoffeePackEntity>()
-                .HasMany(c => c.Coffees)
-                .WithMany(c => c.CoffeePacks);
+                entity.HasMany(d => d.Coffees)
+                    .WithMany(p => p.CoffeePacks)
+                    .UsingEntity<Dictionary<string, object>>(
+                        "CoffeeEntityCoffeePackEntity",
+                        l => l.HasOne<CoffeeEntity>().WithMany().HasForeignKey("CoffeesId"),
+                        r => r.HasOne<CoffeePackEntity>().WithMany().HasForeignKey("CoffeePacksId"),
+                        j =>
+                        {
+                            j.HasKey("CoffeePacksId", "CoffeesId");
+
+                            j.ToTable("CoffeeEntityCoffeePackEntity");
+
+                            j.HasIndex(new[] { "CoffeesId" }, "IX_CoffeeEntityCoffeePackEntity_CoffeesId");
+                        });
+            });
 
             base.OnModelCreating(modelBuilder);
         }

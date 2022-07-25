@@ -31,15 +31,40 @@ namespace CoffeeShop.DAL.Migrations
 
                     b.HasKey("CoffeePacksId", "CoffeesId");
 
-                    b.HasIndex("CoffeesId");
+                    b.HasIndex(new[] { "CoffeesId" }, "IX_CoffeeEntityCoffeePackEntity_CoffeesId");
 
-                    b.ToTable("CoffeeEntityCoffeePackEntity");
+                    b.ToTable("CoffeeEntityCoffeePackEntity", (string)null);
+                });
+
+            modelBuilder.Entity("CoffeeShop.DAL.Entities.CoffeeEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nchar(30)")
+                        .IsFixedLength();
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,0)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Coffee", (string)null);
                 });
 
             modelBuilder.Entity("CoffeeShop.DAL.Entities.CoffeePackEntity", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
                         .IsRequired()

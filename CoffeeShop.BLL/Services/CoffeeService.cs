@@ -8,7 +8,7 @@ namespace CoffeeShop.BLL.Services
 {
     public class CoffeeService : GenericCoffeeShopService<Coffee, CoffeeEntity>, ICoffeeService
     {
-        public CoffeeService(IGenericCoffeeShopRepository<CoffeeEntity> repository, IMapper mapper)
+        public CoffeeService(ICoffeeRepository repository, IMapper mapper)
             : base(repository, mapper)
         { }
     }
