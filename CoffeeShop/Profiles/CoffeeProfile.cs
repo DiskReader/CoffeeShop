@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using CoffeeShop.BLL.Models;
-using CoffeeShop.DAL.Entities;
 using CoffeeShop.ViewModels;
 
 namespace CoffeeShop.Profiles
@@ -10,7 +9,7 @@ namespace CoffeeShop.Profiles
         public CoffeeProfile()
         {
             CreateMap<CoffeeViewModel, Coffee>().ReverseMap();
-            CreateMap<Coffee, CoffeeEntity>().ReverseMap();
+            CreateMap<CoffeePackViewModel, CoffeePack>().ReverseMap();
         }
     }
 }

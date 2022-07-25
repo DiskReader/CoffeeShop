@@ -9,7 +9,7 @@ namespace CoffeeShop.Controllers
         where TModel : class
     {
         private readonly IGenericCoffeeShopService<TModel> _service;
-        private readonly IMapper _mapper;
+        protected readonly IMapper _mapper;
 
         public GenericCoffeeShopController(IGenericCoffeeShopService<TModel> service, IMapper mapper)
         {
